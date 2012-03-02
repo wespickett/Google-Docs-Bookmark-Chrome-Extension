@@ -1,0 +1,16 @@
+{
+   "content_scripts": [ {
+      "all_frames": false,
+      "js": [ "jquery.js", "contentscript.js" ],
+      "matches": [ "https://docs.google.com/viewer?*" ],
+      "run_at": "document_idle"
+   } ],
+   "description": "Bookmark your place in a PDF in Google Docs",
+   "icons": {
+      "128": "icon128.png"
+   },
+   "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDMGuGXA8KluNcHeG43gicf6CU50X/DK8EVcPSWAnAC3GvvD5P245CuyIKlPxubgcWa/N9Vgrys/0i957YoN1sIgN+bOhm0dB4IVxitirnhnOYIQtSv1JWsqNAc5RFma5MTvq/eY23k4HHIVrDk46IRVkq3D2qWY49bST2el7HR9wIDAQAB",
+   "name": "PDF Bookmarker for Google Docs",
+   "update_url": "http://clients2.google.com/service/update2/crx",
+   "version": "0.3.3"
+}
