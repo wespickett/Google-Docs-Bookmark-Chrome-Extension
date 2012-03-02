@@ -1,9 +1,9 @@
+alert('k');
 (function () {
-	
-	var $ = jQuery;
-	var docId = "";
-	var bookmarked = -1;
-	var buttonCSS = {
+	var //$ = jQuery,
+		docId = "",
+		bookmarked = -1,
+		buttonCSS = {
 			"position": "relative",
 			"top":	0,
 			"left": 0,
@@ -12,34 +12,54 @@
 			"margin-bottom":"-15px",
 			"text-align":"center",
 			"cursor":"pointer"
-		};	
+		},
+		url,
+		urlPieces,
+		userTag,
+		saveBookmark;	
+	
+	saveBookmark = function () {
+		$("body").append('<img style="display:none" id="bookmarksync" src="http://wespickett.com/testx?bookmarkPDF='+docId+'&bookmarkPage='+bookmarked+'"/>');
+		$("#bookmarksync").remove();
+	};	
 		
-		
-	var url = window.location.search.substring(1);
-	var urlPieces = url.split('&');
+	url = window.location.pathname;
+	/*urlPieces = url.split('/d/');
 	for( var y in urlPieces )
 	{ 
 		if(urlPieces[y].split('=')[0] == "srcid") docId = urlPieces[y].split('=')[1]
-	}
+	}*/
+	docId = url.match(/\/d\/([0-9A-Za-z]+)\//)[1];
 	
-	var userTag = document.getElementById("gbmpn").nextSibling.innerHTML;
+	userTag = document.getElementById("gbmpn").nextSibling.innerHTML;
 	docId = userTag+docId;
 	
 	$(document).ready(function(){
 
+		//console.log($('.thumb-elements',$('#gview-embed-content').contents()));
+	
 		$("body").append('<img id="bookmarksyncIn" src="http://wespickett.com/testx?bookmarkPDF='+docId+'" />');
 		
 		$("#bookmarksyncIn").load(function(){
-			console.log(this.width - 1);
-			var syncedBookmark = this.width - 1;
+			var syncedBookmark = this.width - 1,
+				bookmarkedPage,
+				page;
+				
 			if( syncedBookmark >= 0 )
 			{
-				var page = $($("#thumb-pane-lower").children().first()).children().get(syncedBookmark);	   
-				$('<p id="bookmarked"><img alt="Bookmarked!" width="120" height="15" src="data:image/png;base64,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" /></p>').insertBefore($(page).children(".page-number"))
+				page = $('.thumb-elements',$('#gview-embed-content').contents()).children().eq(syncedBookmark);	   
+				console.log('page');
+				console.log(page);
+				$('<img id="bookmarked" alt="Bookmarked!" width="120" height="15" src="data:image/png;base64,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" />').prependTo($(page).children().first());
 				$(page).addClass("is-bookmarked");
+				$(page).live('click',function(){
+					console.log($(this));
+				});
 				$("#bookmarked").css(buttonCSS);
-				var bookmarkedPage = $("#page-pane").children().get(syncedBookmark);		
-				$("#content-pane").scrollTop($(bookmarkedPage).position().top)
+				/*bookmarkedPage = $("#thumb-pane").children().get(syncedBookmark);*/
+				$("#content-pane").scrollTop($(bookmarkedPage).position().top);
+				console.log($("#thumb-pane",$('#gview-embed-content').contents()));
+				$("#thumb-pane",$('#gview-embed-content').contents()).scrollTop(123);
 				bookmarked = syncedBookmark;
 			}
 		});
@@ -73,11 +93,7 @@
 			saveBookmark();
 		});
 		
-		var saveBookmark = function()
-		{
-			$("body").append('<img style="display:none" id="bookmarksync" src="http://wespickett.com/testx?bookmarkPDF='+docId+'&bookmarkPage='+bookmarked+'"/>');
-			$("#bookmarksync").remove();
-		};
 	});
 	
+
 })();

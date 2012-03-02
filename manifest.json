@@ -2,7 +2,7 @@
    "content_scripts": [ {
       "all_frames": false,
       "js": [ "jquery.js", "contentscript.js" ],
-      "matches": [ "https://docs.google.com/viewer?*" ],
+      "matches": [ "https://docs.google.com/file/*" ],
       "run_at": "document_idle"
    } ],
    "description": "Bookmark your place in a PDF in Google Docs",
